@@ -57,5 +57,22 @@ trimws(UN_CS112_Data$Mission_Acronym, which = c("both", "left", "right"), whites
 PrelimUNStat <- subset(UN_CS112_Data, Mission_Acronym == "MINUSMA", select = c("Male_Personnel", "Female_Personnel", "Last_Reporting_Date"))
 PrelimUNStat$TotalP <- rowSums( PrelimUNStat[,1:2] )
 UNStatFinal <- subset(PrelimUNStat, select = c("Last_Reporting_Date", "TotalP"))
-
-                               
+#(a) Across time, how much total personnel was stationed there on average?
+#(a) What was the median? 
+UNStat_Mean <- mean(UNStatFinal$TotalP, trim=0, na.rm = FALSE)
+#(a) Across time, 114.0 Perosonnel were stationed there on average.
+UNStat_Median <- median(UNStatFinal$TotalP, na.rm = FALSE)
+#(a) The median value is 8 personnel
+UNStat_Sorted <- sort(UNStatFinal$TotalP)
+quantile(UNStat_Sorted, 0.25)
+#This returns 25% | 2 
+quantile(UNStat_Sorted, 0.75)
+#This returns 75% | 52
+min(UNStat_Sorted)
+#This gives the value 1, which is a heavily recurring value.
+MinRange <- subset(UNStatFinal, TotalP=="1", Select=c("Last_Reporting_Date", "TotalP") )
+#This ranged from 31 of July 2013 to 31 of July 2020.
+max(UNStat_Sorted)
+#The value here is 1726.
+MaxRange <- subset(UNStatFinal, TotalP=="1726", Select=c("Last_Reporting_Date", "TotalP"))
+#This happened on the 31 of January 2017.
